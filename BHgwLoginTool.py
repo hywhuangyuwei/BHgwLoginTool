@@ -1,19 +1,18 @@
 # -- coding: utf-8 --
+#!/usr/bin/env python3
 from base64 import b64encode
-from urllib import quote
-import urllib2
-import os
 import sys
 import time
 import json
 import platform
+import urllib.request
+import urllib.parse
+import urllib.error
 
 
 # Windows
 import win32con
 import win32gui
-reload(sys)
-sys.setdefaultencoding('utf8')
 
 
 class WindowsBalloonTip:
@@ -55,6 +54,7 @@ def balloon_tip(title, msg):
 #####
 
 
+
 # Linux
 if platform.system() == 'Linux':
     import notify2
@@ -64,18 +64,18 @@ if platform.system() == 'Linux':
 
 def autotip(title, msg):
     if platform.system() == 'Windows':
-        balloon_tip(title.encode('gbk'), msg)
+        balloon_tip(title, msg)
     elif platform.system() == 'Linux':
         n = notify2.Notification(title, msg)
         n.show()
 
 
 try:
-    f = open(u'Login.txt')
+    f = open('Login.txt', encoding='utf-8')
 except IOError:
-    f = open(u'Login.txt', 'w')
+    f = open('Login.txt', 'w', encoding='utf-8')
     f.write(
-        u'''#此文件用于保存登录信息
+        '''#此文件用于保存登录信息
 
 #用户名 = {123}
 #密码 = {123}
@@ -85,7 +85,7 @@ except IOError:
     )
     f.close()
     autotip('请先在 Login.txt 中输入登录信息！', 'From BHgwLoginTool By Hyw.')
-    os._exit()
+    sys.exit()
 
 s = f.read()
 f.close()
@@ -95,31 +95,28 @@ index2 = s.find('}')
 index3 = s.find('{', index1 + 1)
 index4 = s.find('}', index2 + 1)
 u = s[index1 + 1:index2]
-p = s[index3 + 1:index4]
-p = '{B}' + quote(b64encode(p))
+p = s[index3 + 1:index4].encode()
+p = '{B}' + urllib.parse.quote(b64encode(p))
 form = 'action=login&username=' + u + '&password=' + p + \
     '&ac_id=20&user_ip=&nas_ip=&user_mac=&save_me=1&ajax=1'
-req = urllib2.Request(
+form = form.encode()
+req = urllib.request.Request(
     url='https://gw.buaa.edu.cn:804/include/auth_action.php', data=form)
-res = urllib2.urlopen(req).read()
-
-# logf = open('log.txt', 'a')
-# logf.write(res + '\n')
-# logf.close()
+res = urllib.request.urlopen(req).read().decode('utf-8')
 
 if res[:8] == 'login_ok':
-    req = urllib2.Request(url='https://gw.buaa.edu.cn:801/beihangview.php')
-    res = urllib2.urlopen(req).read()
+    req = urllib.request.Request(
+        url='https://gw.buaa.edu.cn:801/beihangview.php')
+    res = urllib.request.urlopen(req).read().decode('utf-8')
     u = res.find('uid=')
     u1 = res.find('&', u + 1)
     uid = res[u + 4:u1]
-    req = urllib2.Request(
+    req = urllib.request.Request(
         'https://gw.buaa.edu.cn:801/beihang.php?route=getPackage&uid=' + uid + '&pid=1')
-    res = urllib2.urlopen(req).read()
+    res = urllib.request.urlopen(req).read().decode('utf-8')
     resj = json.loads(res)
     used = resj['acount_used_bytes']
     remain = resj['acount_remain_bytes']
-
     autotip("网络已连接！\n( 流量已用 " + used + ' , 剩余 ' + remain + ' )',
             'From BHgwLoginTool By Hyw.')
 else:

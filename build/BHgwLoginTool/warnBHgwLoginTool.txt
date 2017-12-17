@@ -1,34 +1,18 @@
-missing module named 'org.python' - imported by copy, xml.sax
+missing module named resource - imported by posix, D:\GITHUB\BHgwLoginTool\BHgwLoginTool.py
+missing module named posix - imported by os, D:\GITHUB\BHgwLoginTool\BHgwLoginTool.py
+missing module named _posixsubprocess - imported by subprocess, D:\GITHUB\BHgwLoginTool\BHgwLoginTool.py
+missing module named org - imported by pickle, D:\GITHUB\BHgwLoginTool\BHgwLoginTool.py
+missing module named readline - imported by cmd, code, pdb, D:\GITHUB\BHgwLoginTool\BHgwLoginTool.py
+excluded module named _frozen_importlib - imported by importlib, importlib.abc, D:\GITHUB\BHgwLoginTool\BHgwLoginTool.py
+missing module named _frozen_importlib_external - imported by importlib._bootstrap, importlib, importlib.abc, D:\GITHUB\BHgwLoginTool\BHgwLoginTool.py
+missing module named _winreg - imported by platform, D:\GITHUB\BHgwLoginTool\BHgwLoginTool.py
+missing module named java - imported by platform, D:\GITHUB\BHgwLoginTool\BHgwLoginTool.py
+missing module named 'java.lang' - imported by platform, D:\GITHUB\BHgwLoginTool\BHgwLoginTool.py, xml.sax._exceptions
+missing module named vms_lib - imported by platform, D:\GITHUB\BHgwLoginTool\BHgwLoginTool.py
+missing module named termios - imported by tty, getpass, D:\GITHUB\BHgwLoginTool\BHgwLoginTool.py
+missing module named grp - imported by shutil, tarfile, D:\GITHUB\BHgwLoginTool\BHgwLoginTool.py
+missing module named pwd - imported by posixpath, shutil, tarfile, http.server, webbrowser, netrc, getpass, D:\GITHUB\BHgwLoginTool\BHgwLoginTool.py
+missing module named 'org.python' - imported by copy, D:\GITHUB\BHgwLoginTool\BHgwLoginTool.py, xml.sax
+missing module named _dummy_threading - imported by dummy_threading, D:\GITHUB\BHgwLoginTool\BHgwLoginTool.py
 missing module named notify2 - imported by D:\GITHUB\BHgwLoginTool\BHgwLoginTool.py
-missing module named vms_lib - imported by platform
-missing module named readline - imported by cmd, pdb
-missing module named pwd - imported by posixpath, getpass
-missing module named org - imported by pickle
-missing module named fcntl - imported by tempfile, subprocess
-missing module named 'java.lang' - imported by platform, xml.sax._exceptions
-missing module named java - imported by platform
-missing module named _xmlplus - imported by xml
-missing module named 'Carbon.File' - imported by plistlib
-missing module named 'Carbon.Files' - imported by plistlib
-missing module named Carbon - imported by plistlib
-missing module named MacOS - imported by platform
-missing module named macresource - imported by MacOS
-missing module named gestalt - imported by platform
-missing module named winreg.OpenKeyEx - imported by winreg, platform
-missing module named winreg.HKEY_LOCAL_MACHINE - imported by winreg, platform
-missing module named winreg.QueryValueEx - imported by winreg, platform
-missing module named winreg.CloseKey - imported by winreg, platform
-missing module named riscosenviron - imported by os
-missing module named riscospath - imported by os
-missing module named riscos - imported by os
-missing module named ce - imported by os
-missing module named _emx_link - imported by os
-missing module named os2 - imported by os
-missing module named posix - imported by os
-missing module named resource - imported by posix
-missing module named SOCKS - imported by ftplib
-missing module named _dummy_threading - imported by dummy_threading
-missing module named _scproxy - imported by urllib
-missing module named EasyDialogs - imported by getpass
-missing module named termios - imported by getpass
-missing module named rourl2path - imported by urllib
+missing module named _scproxy - imported by urllib.request
