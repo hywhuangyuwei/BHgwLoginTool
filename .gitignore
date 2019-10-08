@@ -1,3 +1,5 @@
 Login.txt
 src/env/
 src/.vscode/
+.DS_Store
+src/.DS_Store
