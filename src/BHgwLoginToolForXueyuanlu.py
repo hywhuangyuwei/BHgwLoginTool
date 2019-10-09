@@ -28,44 +28,11 @@ def JSONstringify(username, password, ip):
 
 
 def popUpNotification(title, msg):
-    # if platform.system() == 'Windows':
-    #     import win32con
-    #     import win32gui
-    #     class WindowsBalloonTip:
-
-    #         def __init__(self, title, msg):
-    #             message_map = {
-    #                 win32con.WM_DESTROY: self.OnDestroy,
-    #             }
-    #             # Register the Window class.
-    #             wc = win32gui.WNDCLASS()
-    #             hinst = wc.hInstance = win32gui.GetModuleHandle(None)
-    #             wc.lpszClassName = "PythonTaskbar"
-    #             wc.lpfnWndProc = message_map  # could also specify a wndproc.
-    #             classAtom = win32gui.RegisterClass(wc)
-    #             # Create the Window.
-    #             style = win32con.WS_OVERLAPPED | win32con.WS_SYSMENU
-    #             self.hwnd = win32gui.CreateWindow(classAtom, "Taskbar", style,
-    #                                               0, 0, win32con.CW_USEDEFAULT, win32con.CW_USEDEFAULT,
-    #                                               0, 0, hinst, None)
-    #             win32gui.UpdateWindow(self.hwnd)
-    #             hicon = win32gui.LoadIcon(0, win32con.IDI_APPLICATION)
-    #             flags = win32gui.NIF_ICON | win32gui.NIF_MESSAGE | win32gui.NIF_TIP
-    #             nid = (self.hwnd, 0, flags,
-    #                    win32con.WM_USER + 20, hicon, "tooltip")
-    #             win32gui.Shell_NotifyIcon(win32gui.NIM_ADD, nid)
-    #             win32gui.Shell_NotifyIcon(win32gui.NIM_MODIFY,
-    #                                       (self.hwnd, 0, win32gui.NIF_INFO, win32con.WM_USER + 20,
-    #                                        hicon, "Balloon  tooltip", title, 200, msg))
-    #             # self.show_balloon(title, msg)
-    #             time.sleep(5)
-    #             win32gui.DestroyWindow(self.hwnd)
-
-    #         def OnDestroy(self, hwnd, msg, wparam, lparam):
-    #             nid = (self.hwnd, 0)
-    #             win32gui.Shell_NotifyIcon(win32gui.NIM_DELETE, nid)
-    #             win32gui.PostQuitMessage(0)  # Terminate the app.
-    #     WindowsBalloonTip(msg, title)
+    if platform.system() == 'Windows':
+        from win10toast import ToastNotifier
+        toaster = ToastNotifier()
+        toaster.show_toast(
+            title, msg, icon_path='D:/Code/Python/project/tmp/BHgwLoginTool.ico')
 
     # if platform.system() == 'Linux':
     #     import notify2
@@ -73,11 +40,11 @@ def popUpNotification(title, msg):
     #     n = notify2.Notification(title, msg)
     #     n.show()
 
-    if platform.system() == 'Darwin':
-        from subprocess import call
-        cmd = 'display notification \"' + \
-            msg + '\" with title \"' + title + '\"'
-        call(["osascript", "-e", cmd])
+    # if platform.system() == 'Darwin':
+    #     from subprocess import call
+    #     cmd = 'display notification \"' + \
+    #         msg + '\" with title \"' + title + '\"'
+    #     call(["osascript", "-e", cmd])
 
 
 try:
