@@ -1,48 +1,44 @@
 # -- coding: utf-8 --
 #!/usr/bin/env python3
-from base64 import b64encode
-import sys
-import time
 import json
 import platform
-import urllib.request
-import urllib.parse
+import sys
 import urllib.error
+import urllib.parse
+import urllib.request
+from base64 import b64encode
 
 
 def autotip(title, msg):
     if platform.system() == 'Windows':
         from win10toast import ToastNotifier
         toaster = ToastNotifier()
-        toaster.show_toast(
-            title, msg, icon_path='D:/Code/Python/project/tmp/BHgwLoginTool.ico')
+        toaster.show_toast(title, msg, icon_path='./src/BHgwLoginTool.ico')
 
-    # if platform.system() == 'Linux':
-    #     import notify2
-    #     notify2.init('BHgwLoginTool')
-    #     n = notify2.Notification(title, msg)
-    #     n.show()
+    if platform.system() == 'Linux':
+        import notify2
+        notify2.init('BHgwLoginTool')
+        n = notify2.Notification(title, msg)
+        n.show()
 
-    # if platform.system() == 'Darwin':
-    #     from subprocess import call
-    #     cmd = 'display notification \"' + \
-    #         msg + '\" with title \"' + title + '\"'
-    #     call(["osascript", "-e", cmd])
+    if platform.system() == 'Darwin':
+        from subprocess import call
+        cmd = 'display notification \"' + \
+            msg + '\" with title \"' + title + '\"'
+        call(["osascript", "-e", cmd])
 
 
 try:
     f = open('Login.txt', encoding='utf-8')
 except IOError:
     f = open('Login.txt', 'w', encoding='utf-8')
-    f.write(
-        '''#此文件用于保存登录信息
+    f.write('''#此文件用于保存登录信息
 
 #用户名 = {123}
 #密码 = {123}
 
 #注：请在{  }中输入
-'''
-    )
+''')
     f.close()
     autotip('请先在 Login.txt 中输入登录信息！', 'From BHgwLoginTool By Hyw.')
     sys.exit()
@@ -72,7 +68,8 @@ if res[:8] == 'login_ok':
     u1 = res.find('&', u + 1)
     uid = res[u + 4:u1]
     req = urllib.request.Request(
-        'https://gw.buaa.edu.cn:801/beihang.php?route=getPackage&uid=' + uid + '&pid=1')
+        'https://gw.buaa.edu.cn:801/beihang.php?route=getPackage&uid=' + uid +
+        '&pid=1')
     res = urllib.request.urlopen(req).read().decode('utf-8')
     resj = json.loads(res)
     used = resj['acount_used_bytes']

@@ -1,5 +1,4 @@
-Login.txt
-src/env/
-src/.vscode/
-.DS_Store
-src/.DS_Store
+**/Login.txt
+**/env/
+**/.vscode/
+**/.DS_Store/
