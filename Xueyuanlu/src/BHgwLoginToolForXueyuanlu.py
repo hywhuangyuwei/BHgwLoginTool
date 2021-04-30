@@ -8,6 +8,7 @@ from urllib.parse import urlencode
 from urllib.request import Request as Request
 from urllib.request import urlopen as urlopen
 
+st = time.time()
 ssl._create_default_https_context = ssl._create_unverified_context
 
 
@@ -30,9 +31,38 @@ def JSONstringify(username, password, ip):
 
 def popUpNotification(title, msg):
     if platform.system() == 'Windows':
-        from win10toast import ToastNotifier
-        toaster = ToastNotifier()
-        toaster.show_toast(title, msg, icon_path='./src/BHgwLoginTool.ico')
+        # from win10toast import ToastNotifier
+        # toaster = ToastNotifier()
+        # toaster.show_toast(title, msg, icon_path='./src/BHgwLoginTool.ico')
+        import winrt.windows.ui.notifications as notifications
+        import winrt.windows.data.xml.dom as dom
+        nManager = notifications.ToastNotificationManager
+        notifier = nManager.create_toast_notifier(
+            '{1AC14E77-02E7-4E5D-B744-2EB1AE5198B7}\\WindowsPowerShell\\v1.0\\powershell.exe'
+        )
+        tString = """
+        <toast>
+            <visual>
+                <binding template='ToastGeneric'>
+                    <text>%s</text>
+                    <text>%s</text>
+                </binding>
+            </visual>
+            <actions>
+                <action
+                    content="👍"
+                    arguments="dismiss"
+                    activationType="background"/>
+                <action
+                    content="👌"
+                    arguments="dismiss"
+                    activationType="background"/>
+            </actions>
+        </toast>
+        """ % (title, msg)
+        xDoc = dom.XmlDocument()
+        xDoc.load_xml(tString)
+        notifier.show(notifications.ToastNotification(xDoc))
 
     if platform.system() == 'Linux':
         import notify2
@@ -132,10 +162,11 @@ responseJSON = json.loads(response)
 
 title = ''
 msg = ''
+t = time.time() - st
 if responseJSON['res'] == 'ok':
-    title = '登录成功'
-    msg = '信息：' + responseJSON['suc_msg']
+    title = '✅ 登录成功 ✅'
+    msg = '信息：' + responseJSON['suc_msg'] + '\n' + '耗时：%.0f ms' % (t * 1000)
 else:
-    title = '登录失败'
-    msg = '信息：' + responseJSON['error']
+    title = '❌ 登录失败 ❌'
+    msg = '信息：' + responseJSON['error'] + '\n' + '耗时：%.0f ms' % (t * 1000)
 popUpNotification(title, msg)
