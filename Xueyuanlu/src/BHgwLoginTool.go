@@ -13,6 +13,7 @@ import (
 	"net/url"
 	"os"
 	"runtime"
+	"strings"
 	"time"
 )
 
@@ -22,6 +23,28 @@ func _exitIfErr(err error) {
 	if err != nil {
 		log.Fatalf("[ERR]%v\n", err)
 	}
+}
+
+func _getAuth() (string, string) {
+	authStr := `#此文件用于保存登录信息
+
+#用户名 = {123}
+#密码 = {123}
+
+#注：请在{  }中输入
+`
+	path := "./Login.txt"
+	contByte, err := os.ReadFile(path)
+	if err != nil {
+		fmt.Println("请在 Login.txt 中填写登录信息")
+		_ = os.WriteFile("Login.txt", []byte(authStr), 0644)
+		_exitIfErr(err)
+	}
+	contStr := string(contByte)
+	idx1, idx2 := strings.Index(contStr, "{"), strings.Index(contStr, "}")
+	idx3, idx4 := strings.Index(contStr[idx2+1:], "{"), strings.Index(contStr[idx2+1:], "}")
+	username, password := contStr[idx1+1:idx2], contStr[idx2+1:][idx3+1:idx4]
+	return username, password
 }
 
 func _getChallengeUrl(username string) string {
@@ -124,7 +147,7 @@ func main() {
 	//hmd5 = md5(password, token)
 	//chksum = sha1(chkstr)
 
-	username, password := "", ""
+	username, password := _getAuth()
 	token, ip := getTokenIp(username)
 	info := getEncryptedInfo(token, username, password, ip)
 	hmd5 := getEncryptedHmd5(token, password)
